@@ -63,13 +63,9 @@ class Controller implements ControllerInterface
             $data = $this->repo->findById();
             $entity = new (ucfirst($this->entity));
             $this->arrayToObj($entity,$data);
-            echo "<pre>";
-            print_r($entity);
-            echo "</pre>";
             echo $this->twig->render("show.html.twig", ["entity" => $entity,"entityName"=>$this->entity, "className"=>$entity->getClassname()]);
         }
         else {
-            //funkitoniert ??
             $data = $this->repo->findAll();
             echo $this->twig->render("showall.html.twig",["data"=>$data,"entityName"=>$this->entity, "className"=>($data[0]->getClassname())]);
         }
@@ -78,6 +74,9 @@ class Controller implements ControllerInterface
     {
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $entity = new (ucfirst($this->entity))();
+            echo "<pre>";
+            print_r($entity);
+            echo "</pre>";
             echo $this->twig->render("form.html.twig", ["entity" => $entity,"className"=>$entity->getClassname(),"entityName"=>$this->entity,"action"=>"create"]);
         }
         else{
@@ -100,10 +99,23 @@ class Controller implements ControllerInterface
             $data = $this->repo->findById();
             $entity = new (ucfirst($this->entity));
             $this->arrayToObj($entity,$data);
+//            echo "<pre>";
+//            print_r($entity);
+//            echo "</pre>";
             echo $this->twig->render("form.html.twig",["entity"=> $entity,"entityName"=>$this->entity,"className"=>$entity->getClassname(), "action"=>"update"]);
         }else{
+            $data = $this->repo->findById();
+//            echo "<pre>";
+//            print_r($data);
+//            echo "</pre>";
             $entityObject = new (ucfirst($this->entity));
+            $this->arrayToObj($entityObject,$data);
             $this->arrayToObj($entityObject,$_POST);
+
+//            echo "<pre>";
+//            print_r($entityObject);
+//            echo "</pre>";
+
             $data = $this->repo->update($entityObject);
             $entity = new (ucfirst($this->entity));
             $this->arrayToObj($entity,$data);

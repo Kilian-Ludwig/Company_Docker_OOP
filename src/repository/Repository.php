@@ -66,6 +66,12 @@ class Repository
             $columnString = implode(",", $column);
             #UPDATE tabellenname SET spalte1 = wert1, spalte2 = wert2, ...WHERE bedingung;
             $sql = "UPDATE `{$entity->getTableName()}` SET $columnString WHERE id=:id";
+            echo "<pre>";
+            print_r($sql);
+            echo "</pre>";
+            echo "<pre>";
+            print_r($entity->getProperties(true));
+            echo "</pre>";
             $stmt = $this->con->prepare($sql);
             $stmt->execute($entity->getProperties(true));
             return $this->findById();

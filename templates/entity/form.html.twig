@@ -2,24 +2,30 @@
 
 {% block title %}
     {% if action == 'create' %}
-        {{ className }} anlegen
+        create {{ className }}
     {% else %}
-        {{ className }} bearbeiten
+        update {{ className }}
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <h1>
         {% if action == 'create' %}
-            {{ className }} anlegen
+            create {{ className }}
         {% else %}
-            {{ className }} bearbeiten
+            update {{ className }}
         {% endif %}
     </h1>
 
     <form method="post" class="form">
             {% if entity %}
-                {% set props = entity.getProperties(false,true) %}
+                {% if action == 'create' %}
+                    {% set create = true %}
+                {% else %}
+                    {% set create = false %}
+                {% endif %}
+
+                {% set props = entity.getProperties(false,true,create) %}
                 {% for key, value in props %}
                     {% if key != 'id' and key != 'createdAt' and key != 'updatedAt' %}
                         <div class="form-row">
@@ -42,9 +48,9 @@
             {% endif %}
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Speichern</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <a href="http://www.company.bbq/{{ entityName }}/show">
-                <button type="button" class="btn btn-secondary">Abbrechen</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
             </a>
         </div>
     </form>

@@ -33,16 +33,20 @@ trait EntityTrait
 
     }
 
-
-    public function getProperties(bool $isExecute=false, bool $isShow = false): array
+//
+//$isExecute =entfernt createdAt und updatedAt ; wenn id feld not set oder null ist unset ; prüft nach DateTime objekten und wandelt in datum um
+//$isShow prüft nach DateTime objekten und wandelt in datum um
+//$isCreate
+    public function getProperties(bool $isExecute=false, bool $isShow = false,bool $isCreate = false): array
     {
         $reflection = new ReflectionClass($this);
         $props = $reflection->getProperties();
         $array = [];
         $merge = [];
         foreach ($props as $prop) {
-            if (!$prop->isStatic()) {
-                if ($isShow) {
+            $v=$prop->getValue($this);
+            if (!$prop->isStatic() and (!($v===null) or $isCreate)) {
+                if ($isShow or $isExecute) {
                     if ($this->isDateTime($prop)) {
                         $value = $prop->getValue($this);
                         $array[$prop->getName()] = $value instanceof DateTime ? $value->format("Y-m-d") : null;
@@ -64,6 +68,9 @@ trait EntityTrait
                 unset($array["id"]);
             }
         }
+//        echo "<pre>";
+//        print_r($array);
+//        echo "</pre>";
         return $array;
     }
     private function isDateTime(ReflectionProperty $prop): bool

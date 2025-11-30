@@ -17,14 +17,14 @@
     </table>
     <div class="actions">
         <a href="http://www.company.bbq/{{ entityName }}/update/{{ entity.id }}">
-            <button class="btn btn-primary">Ändern</button>
+            <button class="btn btn-primary">Change</button>
         </a>
         <a href="http://www.company.bbq/{{ entityName }}/update/{{ entity.id }}"
-           onclick="return confirm('Wirklich löschen?');">
-            <button class="btn btn-danger">Löschen</button>
+           onclick="return confirm('Are you sure you want to delete?');">
+            <button class="btn btn-danger">Delete</button>
         </a>
         <a href="http://www.company.bbq/{{ entityName }}/show">
-            <button class="btn btn-secondary">Zurück zur Liste</button>
+            <button class="btn btn-secondary">Back to List</button>
         </a>
     </div>
 {% endblock %}
