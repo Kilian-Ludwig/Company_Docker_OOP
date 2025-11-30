@@ -7,8 +7,8 @@ class Department implements EntityInterface{
     private ?int $managerId = null;
     private ?int $isActive = null;
     private ?int $isHiring = null;
-    private DateTime | string|null $createdAt = null;
-    private DateTime | string|null $updatedAt = null;
+    private DateTime | string | null $createdAt = null;
+    private DateTime | string | null $updatedAt = null;
 
     public function setDepartmentName(string $departmentName): void
     {

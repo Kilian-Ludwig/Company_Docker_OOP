@@ -17,9 +17,6 @@ CREATE TABLE IF NOT EXISTS department (
     createdAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-git init
-git add .
-git commit -m "Initial commit"
 
 -- Tabelle: employee
 CREATE TABLE IF NOT EXISTS employee (
