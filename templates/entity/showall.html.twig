@@ -1,0 +1,50 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{ className }} Liste{% endblock %}
+
+{% block content %}
+    <h1>{{ className }} Liste</h1>
+
+    {% if data|length == 0 %}
+        <p>Keine Einträge vorhanden.</p>
+    {% else %}
+        <table class="list-table">
+            <thead>
+            <tr>
+                {% for key, value in data[0].getProperties() %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+                <th>Aktionen</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in data %}
+                <tr>
+                    {% for key, value in entity.getProperties() %}
+                        <td>
+                            {{ value }}
+                        </td>
+                    {% endfor %}
+                    <td class="actions">
+                        <a href="http://www.company.bbq/{{ entityName }}/show/{{ entity.id }}">
+                            <button class="btn btn-sm">Details</button>
+                        </a>
+                        <a href="http://www.company.bbq/{{ entityName }}/update/{{ entity.id }}">
+                            <button class="btn btn-sm btn-primary">Bearbeiten</button>
+                        </a>
+                        <a href="http://www.company.bbq/{{ entityName }}/delete/{{ entity.id }}"
+                           onclick="return confirm('Wirklich löschen?');">
+                            <button class="btn btn-sm btn-danger">Löschen</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <div class="actions">
+        <a href="http://www.company.bbq/{{ entityName }}/create">
+            <button class="btn btn-success">{{ className }} anlegen</button>
+        </a>
+    </div>
+{% endblock %}

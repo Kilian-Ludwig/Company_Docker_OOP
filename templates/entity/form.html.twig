@@ -1,0 +1,51 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    {% if action == 'create' %}
+        {{ className }} anlegen
+    {% else %}
+        {{ className }} bearbeiten
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if action == 'create' %}
+            {{ className }} anlegen
+        {% else %}
+            {{ className }} bearbeiten
+        {% endif %}
+    </h1>
+
+    <form method="post" class="form">
+            {% if entity %}
+                {% set props = entity.getProperties(false,true) %}
+                {% for key, value in props %}
+                    {% if key != 'id' and key != 'createdAt' and key != 'updatedAt' %}
+                        <div class="form-row">
+                            <label for="{{ key }}">{{ key }}</label>
+                            <input
+                                    type="{{ entity.getFieldType(key) }}"
+                                    id="{{ key }}"
+                                    name="{{ key }}"
+                                    value="{{ value }}"
+                                    {% if key =="isActive" or key =="isHiring"%}
+                                        min="0"
+                                        max="1"
+                                        step="1"
+                                    {% endif %}
+                                    required
+                            >
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Speichern</button>
+            <a href="http://www.company.bbq/{{ entityName }}/show">
+                <button type="button" class="btn btn-secondary">Abbrechen</button>
+            </a>
+        </div>
+    </form>
+{% endblock %}

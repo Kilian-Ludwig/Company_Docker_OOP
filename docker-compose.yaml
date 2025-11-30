@@ -1,0 +1,44 @@
+services:
+
+  apache:
+    build: docker/apache
+    container_name: apache
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/company
+    env_file:
+      - .env
+
+  mariadb:
+    image: mariadb:latest
+    container_name: ${DB_HOST}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PW}
+      MYSQL_DATABASE: ${DB_Name}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_USER_PW}
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - mariadb_data:/var/lib/mysql
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#  bind9:
+#    build: docker/bind
+#    container_name: bind9
+#    ports:
+#      - "53:53/udp"
+#      - "53:53/tcp"
+#    image: ubuntu:latest
+#    container_name: ubu
+#    tty: true
+#    stdin_open: true
+
+volumes:
+  mariadb_data:
+
