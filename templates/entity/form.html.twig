@@ -19,13 +19,13 @@
 
     <form method="post" class="form">
             {% if entity %}
-                {% if action == 'create' %}
-                    {% set create = true %}
-                {% else %}
-                    {% set create = false %}
-                {% endif %}
+{#                {% if action == 'create' %}#}
+{#                    {% set create = true %}#}
+{#                {% else %}#}
+{#                    {% set create = false %}#}
+{#                {% endif %}#}
 
-                {% set props = entity.getProperties(false,true,create) %}
+                {% set props = entity.getProperties(false,true,true) %}
                 {% for key, value in props %}
                     {% if key != 'id' and key != 'createdAt' and key != 'updatedAt' %}
                         <div class="form-row">

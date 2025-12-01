@@ -7,7 +7,7 @@
 
     <table class="detail-table">
         <tbody>
-        {% for key, value in entity.getProperties(false,true) %}
+        {% for key, value in entity.getProperties(false,true,true) %}
             <tr>
                 <th>{{ key }}</th>
                 <td>{{ value }}</td>

@@ -23,7 +23,7 @@ class Registration {
         return empty($this->errors);
     }
 
-    public function getErrors() {
+    public function getErrors(): array {
         return $this->errors;
     }
 
@@ -41,20 +41,4 @@ class Registration {
         }
         return true;
     }
-}
-
-$email = $_POST["email"] ?? null;
-$fName = $_POST["fname"] ?? null;
-$password = $_POST["password"] ?? null;
-
-// Grundlegende Validierung
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $_SESSION["error"] = "Ungültige E-Mail-Adresse";
-    header("Location: http://www.never_forget.de/registrierung");
-    exit();
-}
-if (strlen($password) < 8) {
-    $_SESSION["error"] = "Ungültiges passwort";
-    header("Location: http://www.never_forget.de/registrierung");
-    exit();
 }

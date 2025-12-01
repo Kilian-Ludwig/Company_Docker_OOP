@@ -11,8 +11,12 @@ include_once "../src/entity/Department.php";
 include_once "../src/entity/EmployeeProject.php";
 include_once "../src/entity/Project.php";
 include_once "../src/entity/Skill.php";
+include_once "../src/entity/Users.php";
+
 
 include_once "../src/Kernel.php";
+include_once "../src/Registration.php";
+
 
 include_once "../src/controller/ControllerInterface.php";
 include_once "../src/controller/Controller.php";

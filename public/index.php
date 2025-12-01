@@ -9,5 +9,6 @@
 //controller und repo klassen gleiche methoden namen , konflikt ??
 //api anbindung , vielleicht mit github link ?
 
+//problem mit manager id, feld wird in single view nicht angezeigt nur bei sales ??
 include '../config/loader.php';
 (new Kernel())->loadApp();

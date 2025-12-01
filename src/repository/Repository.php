@@ -49,6 +49,25 @@ class Repository
             return false;
         }
     }
+    public function findByEmail(string $email): ?array
+    {
+        if (in_array($this->entity, ["employee","users"])) {
+            $sql = "SELECT * FROM `{$this->entity}` WHERE `email` = :email LIMIT 1";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute(['email' => $email]);
+//            return $stmt->fetchAll(PDO::FETCH_CLASS,ucfirst($this->entity));
+        }
+        return $stmt->fetchAll(PDO::FETCH_CLASS,ucfirst($this->entity)) ?? null;
+    }
+    public function getPassword(string $email): ?string
+    {
+        if (in_array($this->entity, ["user"])) {
+            $sql = "SELECT password_hash FROM `{$this->entity}` WHERE `{$this->entity}email` = :email";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute(['email' => $email]);
+        }
+        return $stmt->fetch(PDO::FETCH_ASSOC)["passwordHash"] ?? null;
+    }
 
     public function update(EntityInterface $entity) : EntityInterface |false |array {
         $columnString = "";

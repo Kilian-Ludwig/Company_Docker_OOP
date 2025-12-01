@@ -33,6 +33,7 @@ class Kernel
 
     public function loadApp():void
     {
+        session_start();
         $this->loadRequest();
         $this->loadMethod();
         $this->loadEntity();

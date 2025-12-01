@@ -56,6 +56,10 @@ class Controller implements ControllerInterface
     }
     public function show(): void
     {
+        if (!isset($_SESSION["userId"])) {
+            echo $this->twig->render("layout.html.twig");
+            return ;
+        }
         if (!$this->entity) {
             echo $this->twig->render("layout.html.twig");
         }
@@ -72,6 +76,10 @@ class Controller implements ControllerInterface
     }
     public function create():void
     {
+        if (!isset($_SESSION["userId"])) {
+            echo $this->twig->render("layout.html.twig");
+            return ;
+        }
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $entity = new (ucfirst($this->entity))();
             echo "<pre>";
@@ -95,13 +103,20 @@ class Controller implements ControllerInterface
     }
     public function update(): void
     {
+        if (!isset($_SESSION["userId"])) {
+            echo $this->twig->render("layout.html.twig");
+            return ;
+        }
         if ($_SERVER["REQUEST_METHOD"] === "GET"){
             $data = $this->repo->findById();
+            echo "<pre>";
+            print_r($data);
+            echo "</pre>";
             $entity = new (ucfirst($this->entity));
             $this->arrayToObj($entity,$data);
-//            echo "<pre>";
-//            print_r($entity);
-//            echo "</pre>";
+            echo "<pre>";
+            print_r($entity);
+            echo "</pre>";
             echo $this->twig->render("form.html.twig",["entity"=> $entity,"entityName"=>$this->entity,"className"=>$entity->getClassname(), "action"=>"update"]);
         }else{
             $data = $this->repo->findById();
@@ -125,9 +140,78 @@ class Controller implements ControllerInterface
     }
     public function delete(): void
     {
+        if (!isset($_SESSION["userId"])) {
+            echo $this->twig->render("layout.html.twig");
+            return ;
+        }
         $this->repo->delete();
         echo $this->entity." with id ".$this->id." deleted";
         $this->id=null;
         $this->show();
+    }
+
+    public function logout(): void
+    {
+        if (!isset($_SESSION["userId"])) {
+            echo $this->twig->render("layout.html.twig");
+            return ;
+        }
+        if (isset($_POST["logout"])) {   # wenn reset button gedrückt wurde, cookies und session löschen
+            session_unset()	;
+            if (ini_get("session.use_cookies")) {
+                $params = session_get_cookie_params();
+                setcookie(session_name(), '', time() - 42000,
+                    $params["path"], $params["domain"],
+                    $params["secure"], $params["httponly"] );
+            }
+            session_destroy();
+            echo $this->twig->render("login.html.twig");
+        }
+    }
+
+    public function login()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "GET") {
+            echo $this->twig->render("login.html.twig");
+        } else {
+            $passwordHashDb = $this->repo->getPassword($_POST["email"]);
+            if (!$passwordHashDb) {
+                echo $this->twig->render("login.html.twig");
+            }
+            elseif (password_verify($passwordHashDb, $_POST["password"])) {
+                session_start();
+                session_regenerate_id(true);
+                $userId = $this->repo->findByEmail($_POST["email"])[0]->getId();
+                $_SESSION['userId'] = $userId;
+                echo $this->twig->render("layout.html.twig");
+            }
+
+        }
+    }
+
+    public function register()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "GET"){
+            echo $this->twig->render("register.html.twig");
+        }
+        else {
+            $entity = new (ucfirst($this->entity));
+            $register = new Registration();
+            if (!$this->repo->findByEmail($_POST["email"]) and $register->validatePassword($_POST["password"])) {
+                $entity->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
+                $entity->setEmail($_POST["email"]);
+                $this->repo->create($entity);
+                echo"registered";
+                echo $this->twig->render("login.html.twig");
+            }
+            else {
+                print_r($register->getErrors());
+                echo $this->twig->render("register.html.twig");
+
+            }
+
+
+        }
+        
     }
 }
