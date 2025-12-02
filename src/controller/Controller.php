@@ -172,20 +172,18 @@ class Controller implements ControllerInterface
     public function login()
     {
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
-            echo $this->twig->render("login.html.twig");
-        } else {
+            echo $this->twig->render("login.html.twig", ["status" => true]);
+        }
+        else {
             $passwordHashDb = $this->repo->getPassword($_POST["email"]);
             if (!$passwordHashDb) {
-                echo $this->twig->render("login.html.twig");
+                echo $this->twig->render("login.html.twig", ["status" => false]);
             }
-            elseif (password_verify($passwordHashDb, $_POST["password"])) {
-                session_start();
-                session_regenerate_id(true);
-                $userId = $this->repo->findByEmail($_POST["email"])[0]->getId();
+            elseif (password_verify($_POST["password"],$passwordHashDb)) {
+                $userId = $this->repo->findByEmail($_POST["email"])["id"];
                 $_SESSION['userId'] = $userId;
                 echo $this->twig->render("layout.html.twig");
             }
-
         }
     }
 
@@ -198,11 +196,20 @@ class Controller implements ControllerInterface
             $entity = new (ucfirst($this->entity));
             $register = new Registration();
             if (!$this->repo->findByEmail($_POST["email"]) and $register->validatePassword($_POST["password"])) {
-                $entity->setPassword(password_hash($_POST["password"], PASSWORD_DEFAULT));
+                $entity->setPasswordHash(password_hash($_POST["password"], PASSWORD_DEFAULT));
                 $entity->setEmail($_POST["email"]);
+                echo "<pre>";
+                print_r($_POST);
+                echo "</pre>";
+                echo "<pre>";
+                print_r($entity);
+                echo "</pre>";
                 $this->repo->create($entity);
+                echo "<pre>";
+                print_r($entity);
+                echo "</pre>";
+                echo $this->twig->render("login.html.twig", ["status" => true]);
                 echo"registered";
-                echo $this->twig->render("login.html.twig");
             }
             else {
                 print_r($register->getErrors());

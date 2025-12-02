@@ -33,13 +33,20 @@ class Kernel
 
     public function loadApp():void
     {
+
         session_start();
         $this->loadRequest();
         $this->loadMethod();
         $this->loadEntity();
         $this->loadId();
+        if ($this->entity==null) {
+            $this->entity = "users";
+            $this->method = "login";
+        }
         $this->loadController();
         $this->controller->{$this->method}();
+
+
     }
 
 

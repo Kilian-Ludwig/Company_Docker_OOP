@@ -1,7 +1,5 @@
 <?php
-//sollte man vielleicht eine propertie in repository machen, die PDO speichert ?
-//welche absicherung/validation braucht man
-//twig
+
 //ids in der klasse oder in der Datenbank erstellen ?
 //save muss noch umgeschrieben werden ? nur einzelnes objekt in csv exportieren ??
 //controller interface löschen  oder behalten wegen pagenotfoundcontroller? woher kommt der mmc tag ?
@@ -10,5 +8,9 @@
 //api anbindung , vielleicht mit github link ?
 
 //problem mit manager id, feld wird in single view nicht angezeigt nur bei sales ??
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+    session_regenerate_id(true);
+}
 include '../config/loader.php';
 (new Kernel())->loadApp();

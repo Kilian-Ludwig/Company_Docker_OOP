@@ -4,7 +4,7 @@ class Users implements EntityInterface
     use EntityTrait;
     private ?int $id = null;
 
-    private string $userEmail;
+    private string $email;
 
     private string $passwordHash;
 

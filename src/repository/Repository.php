@@ -49,24 +49,23 @@ class Repository
             return false;
         }
     }
-    public function findByEmail(string $email): ?array
+    public function findByEmail(string $email): false|array
     {
         if (in_array($this->entity, ["employee","users"])) {
             $sql = "SELECT * FROM `{$this->entity}` WHERE `email` = :email LIMIT 1";
             $stmt = $this->con->prepare($sql);
             $stmt->execute(['email' => $email]);
-//            return $stmt->fetchAll(PDO::FETCH_CLASS,ucfirst($this->entity));
         }
-        return $stmt->fetchAll(PDO::FETCH_CLASS,ucfirst($this->entity)) ?? null;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getPassword(string $email): ?string
+    public function getPassword(string $email): false|string
     {
-        if (in_array($this->entity, ["user"])) {
-            $sql = "SELECT password_hash FROM `{$this->entity}` WHERE `{$this->entity}email` = :email";
+        if (in_array($this->entity, ["users"])) {
+            $sql = "SELECT passwordHash FROM `{$this->entity}` WHERE `email` = :email";
             $stmt = $this->con->prepare($sql);
             $stmt->execute(['email' => $email]);
         }
-        return $stmt->fetch(PDO::FETCH_ASSOC)["passwordHash"] ?? null;
+        return $stmt->fetch(PDO::FETCH_ASSOC)["passwordHash"];
     }
 
     public function update(EntityInterface $entity) : EntityInterface |false |array {
@@ -106,7 +105,7 @@ class Repository
         $columnStringArray = [];
         $columnStringValue = "";
         $columnStringValueArray = [];
-        if (in_array($entity->getTableName(), ["department", "employee","employeeProject","project","skill"])) {
+        if (in_array($entity->getTableName(), ["users","department", "employee","employeeProject","project","skill"])) {
             $sql = "Describe `{$entity->getTableName()}`";
             $stmt = $this->con->prepare($sql);
             $stmt->execute();

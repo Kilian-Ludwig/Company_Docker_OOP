@@ -1,4 +1,4 @@
-/* Grundlayout */
+
 body {
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
     padding: 0 20px;
 }
 
-/* Navigation */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -45,7 +45,7 @@ body {
     font-size: 16px;
 }
 
-/* Tabellen */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -118,7 +118,7 @@ th {
     background-color: #1e7e34;
 }
 
-/* Aktionen-Zellen */
+
 .actions {
     margin-top: 15px;
 }
@@ -127,7 +127,7 @@ th {
     margin-right: 8px;
 }
 
-/* Formulare */
+
 .form {
     background-color: #fff;
     padding: 15px 20px;
@@ -159,7 +159,6 @@ th {
     margin-top: 10px;
 }
 
-/* Footer */
 .footer {
     text-align: center;
     font-size: 12px;
