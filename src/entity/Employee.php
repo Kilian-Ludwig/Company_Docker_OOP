@@ -5,7 +5,7 @@ class Employee implements EntityInterface
     private ?int $id = null;
     private ?string $employeeFirstName = null;
     private ?string $employeeLastName = null ;
-    private ?string $employeeEmail = null;
+    private ?string $email = null;
     private ?string $employeePhone = null;
     private ?int $departmentId = null;
     private ?string $position = null;
@@ -24,9 +24,9 @@ class Employee implements EntityInterface
         $this->employeeLastName = $employeeLastName;
     }
 
-    public function setEmployeeEmail(string $employeeEmail): void
+    public function setEmail(string $email): void
     {
-        $this->employeeEmail = $employeeEmail;
+        $this->email = $email;
     }
 
     public function setEmployeePhone(string $employeePhone): void

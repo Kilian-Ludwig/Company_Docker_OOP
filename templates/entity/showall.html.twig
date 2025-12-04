@@ -11,7 +11,7 @@
         <table class="list-table">
             <thead>
             <tr>
-                {% for key, value in data[0].getProperties(false,false,true) %}
+                {% for key, value in data[0].getProperties(false,true,true) %}
                     <th>{{ key }}</th>
                 {% endfor %}
                 <th>Action</th>
@@ -20,7 +20,7 @@
             <tbody>
             {% for entity in data %}
                 <tr>
-                    {% for key, value in entity.getProperties(false,false,true) %}
+                    {% for key, value in entity.getProperties(false,true,true) %}
                         <td>
                             {{ value }}
                         </td>

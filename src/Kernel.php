@@ -5,9 +5,9 @@ class Kernel
 
     private array $request;
     private ControllerInterface $controller;
-    private string $entity;
-    private string $method;
-    private int|null $id;
+    private ?string $entity;
+    private ?string $method;
+    private ?int $id;
 
     private function loadRequest() : void
     {
@@ -25,7 +25,7 @@ class Kernel
         $this->entity = $this->request[1] ?? null;
     }
     private function loadMethod():void {
-        $this->method = $this->request[2] ?? "show";
+        $this->method = $this->request[2] ?? null;
     }
     private function loadId():void {
         $this->id = $this->request[3] ?? null;
@@ -33,20 +33,17 @@ class Kernel
 
     public function loadApp():void
     {
-
-        session_start();
         $this->loadRequest();
         $this->loadMethod();
         $this->loadEntity();
         $this->loadId();
+
         if ($this->entity==null) {
             $this->entity = "users";
-            $this->method = "login";
+            $this->method = "showMainpage";
         }
         $this->loadController();
         $this->controller->{$this->method}();
-
-
     }
 
 

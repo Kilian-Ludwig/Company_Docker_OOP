@@ -24,16 +24,19 @@ class Repository
         $dbName = $_ENV['DB_NAME'];
         $dbUser = $_ENV['DB_USER'];
         $dbPw = $_ENV['DB_USER_PW'];
-        return new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPw);
+        return new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPw, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
     }
-
     public function findAll() : array | false
     {
         if (in_array($this->entity, ["department","employee","employeeProject","project","skill"])) {
             $sql = "select * from `{$this->entity}`";
             $stmt = $this->con->prepare($sql);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_CLASS,ucfirst($this->entity));
+            $con = new Controller();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         return false;
     }
@@ -65,7 +68,11 @@ class Repository
             $stmt = $this->con->prepare($sql);
             $stmt->execute(['email' => $email]);
         }
-        return $stmt->fetch(PDO::FETCH_ASSOC)["passwordHash"];
+        $hash =$stmt->fetch(PDO::FETCH_ASSOC);
+        if ($hash) {
+            return $hash["passwordHash"];
+        }
+        return false;
     }
 
     public function update(EntityInterface $entity) : EntityInterface |false |array {

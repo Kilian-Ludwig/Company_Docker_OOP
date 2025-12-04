@@ -24,9 +24,9 @@ class Users implements EntityInterface
         return $this->id;
     }
 
-    public function getUserEmail(): string
+    public function getEmail(): string
     {
-        return $this->userEmail;
+        return $this->email;
     }
 
     public function setEmail(string $email): void

@@ -27,7 +27,7 @@ services:
 #    image: adminer
 #    restart: always
 #    ports:
-#      - "8080:8080"
+      - "8080:8080"
 #  bind9:
 #    build: docker/bind
 #    container_name: bind9

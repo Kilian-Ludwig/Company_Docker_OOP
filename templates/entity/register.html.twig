@@ -5,15 +5,6 @@
 {% block content %}
     <h1>Registration</h1>
 
-
-    {% if errors is defined and errors %}
-        <ul class="errors">
-            {% for error in errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
     <form class="form" method="post">
         <div>
             <label for="email">E-Mail</label>
